@@ -1,3 +1,16 @@
+# Validation added for login
+
+Login validation added
+Product list, create , edit and delete integrated
+Cart List added.
+
+Need to create order entries.
+
+UI neeed to enhance.
+
+Last Updated : 8/10/23
+Last change by : Ismail raja.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

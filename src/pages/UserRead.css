@@ -1,0 +1,35 @@
+/* Read.css */
+
+/* Add a class to style the table header */
+.table-header {
+    background-color: #3498db; /* Cool blue color, you can adjust the color code as needed */
+    color: white; /* Text color */
+    font-weight: bold; /* Bold text */
+    padding: 10px; /* Padding for header cells */
+    text-align: center; /* Center-align the text */
+  }
+  
+  /* Style the table cells */
+  .user-table {
+    border-collapse: collapse; /* Collapse the table borders */
+    width: 100%;
+  }
+  
+  .user-table th,
+  .user-table td {
+    border: 1px solid #ddd; /* Add a border to cells */
+    padding: 8px; /* Padding for cells */
+    text-align: left; /* Left-align text in cells */
+  }
+  
+  /* Alternate row background color */
+  .user-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  /* Hover effect for table rows */
+  .user-table tbody tr:hover {
+    background-color: #3498db;
+    color: white;
+  }
+  
