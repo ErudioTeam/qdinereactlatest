@@ -113,6 +113,8 @@ export const CartList = () => {
     //     "content": ""
     // }
     console.log(cart);
+
+    cart.map((cartlist, i) => console.log("Content " + cartlist.content));
     // Perform the POST request to create a new user
     axios
       .post("http://103.186.185.127:8082/ordercreate", cart)
@@ -187,6 +189,7 @@ export const CartList = () => {
             <th>Discount</th>
             <th>Quantity</th>
             <th>Add to Cart</th> {/* Add this column */}
+            <th>Description</th>
           </tr>
         </thead>
         <tbody>
