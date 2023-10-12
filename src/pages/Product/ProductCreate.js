@@ -127,7 +127,7 @@ export const ProductCreate = () => {
         alert(response.data.message);
         console.log("Product data Created:", response.data);
         setUserStatus({ ...userStatus, Message: response.data.message });
-        navigate("/productlist");
+        navigate("/dashboard/productlist");
         // Handle success (e.g., display a success message or redirect)
       })
       .catch((error) => {

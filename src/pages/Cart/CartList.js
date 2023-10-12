@@ -10,6 +10,7 @@ export const CartList = () => {
 
   // Define cart state
   const [cart, setCart] = useState([]);
+  const [cartitem, setCartitem] = useState([]);
   const [order, serOrder] = useState([]);
   const [userStatus, setUserStatus] = useState({
     Message: "Pls. Create Entry..",
@@ -26,6 +27,8 @@ export const CartList = () => {
     const tax = 0; // Calculate tax if applicable
     const shipping = 0; // Calculate shipping cost if applicable
     const total = subTotal - itemDiscount + tax + shipping;
+
+    // create cart item
 
     // Create the order object
     // {data.map((item) => (
@@ -113,24 +116,47 @@ export const CartList = () => {
     //     "content": ""
     // }
     console.log(cart);
+    var cartitem = {
+      id: 2,
+      productId: 1,
+      cartId: 2,
+      sku: "100",
+      price: 1,
+      discount: 1,
+      quantity: 1,
+      active: true,
+      createdAt: "0001-01-01T00:00:00Z",
+      content: "1",
+    };
+    console.log("cart : " + cartitem);
 
-    cart.map((cartlist, i) => console.log("Content " + cartlist.content));
-    // Perform the POST request to create a new user
-    axios
-      .post("http://103.186.185.127:8082/ordercreate", cart)
-      .then((response) => {
-        console.log("Order created :", response.data);
+    cart.map((cartlist, i) => {
+      console.log("Content " + cartlist.content);
+      cartitem.productId = cartlist.productId;
+      cartitem.cartId = cartlist.id;
+      cartitem.price = cartlist.price;
+      cartitem.discount = cartlist.discount;
+      cartitem.quantity = cartlist.quantity;
+      cartitem.active = cartlist.active;
 
-        const { data, message } = response;
-        setUserStatus({ ...userStatus, Message: response.data.message });
+      console.log("Adding Cart:" + cartitem);
+      // Perform the POST request to create a new user
+      axios
+        .post("http://103.186.185.127:8084/cartitems", cartitem)
+        .then((response) => {
+          console.log("Cart Item created :", response.data);
 
-        // Handle success (e.g., display a success message or redirect)
-      })
-      .catch((error) => {
-        console.error("Error creating user:", error);
-        setUserStatus({ ...userStatus, Message: error });
-        // Handle errors (e.g., display an error message)
-      });
+          const { data, message } = response;
+          setUserStatus({ ...userStatus, Message: response.data.message });
+
+          // Handle success (e.g., display a success message or redirect)
+        })
+        .catch((error) => {
+          console.error("Error creating user:", error);
+          setUserStatus({ ...userStatus, Message: error });
+          // Handle errors (e.g., display an error message)
+        });
+    });
   };
 
   function ImageDisplay(props) {
@@ -147,6 +173,8 @@ export const CartList = () => {
   // Function to add items to the cart
   const addToCart = (item) => {
     setCart([...cart, item]);
+    setCartitem([...cartitem.itemid,item.cartId]);
+    setCartitem([...cartitem.itemid,item.cartId]);
   };
 
   useEffect(() => {
