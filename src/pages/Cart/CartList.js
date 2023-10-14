@@ -84,6 +84,16 @@ export const CartList = () => {
       });
   };
 
+  const removeFromCart = (el) => {
+    let hardCopy = [...cart];
+    hardCopy = hardCopy.filter((cart) => cart.id !== el.id);
+    setCart(hardCopy);
+  };
+
+  const handleEmptycart = () => {
+    console.log("Clear Cart");
+    // e.preventDefault();
+  };
   const handleOrder = () => {
     console.log("Add order to order table ");
 
@@ -117,7 +127,6 @@ export const CartList = () => {
     // }
     console.log(cart);
     var cartitem = {
-      id: 2,
       productId: 1,
       cartId: 2,
       sku: "100",
@@ -132,17 +141,17 @@ export const CartList = () => {
 
     cart.map((cartlist, i) => {
       console.log("Content " + cartlist.content);
-      cartitem.productId = cartlist.productId;
+      cartitem.productId = cartlist.id;
       cartitem.cartId = cartlist.id;
       cartitem.price = cartlist.price;
       cartitem.discount = cartlist.discount;
       cartitem.quantity = cartlist.quantity;
-      cartitem.active = cartlist.active;
+      cartitem.active = true;
 
-      console.log("Adding Cart:" + cartitem);
+      console.log("Adding Cart:" + cartitem.price);
       // Perform the POST request to create a new user
       axios
-        .post("http://103.186.185.127:8084/cartitems", cartitem)
+        .post("http://103.186.185.127:8082/cartitems", cartitem)
         .then((response) => {
           console.log("Cart Item created :", response.data);
 
@@ -157,6 +166,8 @@ export const CartList = () => {
           // Handle errors (e.g., display an error message)
         });
     });
+
+    console.log("added to to cart Item." + cart.length);
   };
 
   function ImageDisplay(props) {
@@ -173,8 +184,8 @@ export const CartList = () => {
   // Function to add items to the cart
   const addToCart = (item) => {
     setCart([...cart, item]);
-    setCartitem([...cartitem.itemid,item.cartId]);
-    setCartitem([...cartitem.itemid,item.cartId]);
+    //  setCartitem([...cartitem.itemid, item.cartId]);
+    //   setCartitem([...cartitem.itemid, item.cartId]);
   };
 
   useEffect(() => {
@@ -244,6 +255,16 @@ export const CartList = () => {
       {/* Display Cart */}
       <div>
         <h2>Cart</h2>
+
+        <div>
+          {cart.length === 0 ? (
+            <div className="cart cart-header">Cart is empty</div>
+          ) : (
+            <div className="cart cart-header">
+              You have {cart.length} in the cart{" "}
+            </div>
+          )}
+        </div>
         <tables>
           <thead>
             <tr>
@@ -260,6 +281,14 @@ export const CartList = () => {
                 <td>{item.quantity}</td>
                 <td>{item.price}</td>
                 <td>{item.quantity * item.price}</td>
+                <td>
+                  {" "}
+                  <input
+                    type="submit"
+                    value="remove"
+                    onClick={() => removeFromCart(item)}
+                  />
+                </td>
               </tr>
             ))}
           </tbody>
@@ -272,6 +301,10 @@ export const CartList = () => {
         </tables>
         <div className="checkout-button">
           <button onClick={handleOrder}>Proceed to Checkout</button>
+        </div>
+
+        <div className="checkout-button">
+          <button onClick={handleEmptycart}>Clear Cart</button>
         </div>
       </div>
     </div>
