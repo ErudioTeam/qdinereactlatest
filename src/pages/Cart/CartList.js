@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./CartList.css";
 import { Link } from "react-router-dom";
+import { loadStripe } from "@stripe/stripe-js";
 
 export const CartList = () => {
   const [data, setData] = useState([]);
@@ -94,6 +95,50 @@ export const CartList = () => {
     console.log("Clear Cart");
     // e.preventDefault();
   };
+
+  // payment integration
+  const makePayment = async () => {
+    const stripe = await loadStripe(
+      "https://buy.stripe.com/test_5kAaFcec1c5ogJa4gh"
+    );
+
+
+//     const stripe = require('stripe')('sk_test_51O1LmJGwJrwHzQ06JKny9Cu6iRC4wDGp5nAW4yAJj3U3piEvqpTK2jghiVAJAIpT5kFXOY6Whjz4wFENnXhSWt8l0032eCkGDM');
+
+// const session = await stripe.checkout.sessions.create({
+//   success_url: 'https://example.com/success',
+//   line_items: [
+//     {price: 'price_H5ggYwtDq4fbrJ', quantity: 2},
+//   ],
+//   mode: 'payment',
+// });
+
+    const body = {
+      products: cart,
+    };
+    const headers = {
+      "Content-Type": "application/json",
+    };
+    const response = await fetch(
+      "http://localhost:7000/api/create-checkout-session",
+      {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(body),
+      }
+    );
+
+    const session = await response.json();
+
+    const result = stripe.redirectToCheckout({
+      sessionId: session.id,
+    });
+
+    if (result.error) {
+      console.log(result.error);
+    }
+  };
+
   const handleOrder = () => {
     console.log("Add order to order table ");
 
@@ -305,6 +350,16 @@ export const CartList = () => {
 
         <div className="checkout-button">
           <button onClick={handleEmptycart}>Clear Cart</button>
+        </div>
+
+        <div className="checkout-button">
+          <button
+            className="btn btn-success"
+            onClick={makePayment}
+            type="button"
+          >
+            Checkout
+          </button>{" "}
         </div>
       </div>
     </div>
